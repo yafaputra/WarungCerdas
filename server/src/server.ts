@@ -25,6 +25,11 @@ app.use(express.json());
 // Routes
 app.use("/api", landingPageRoutes);
 
+// Root route
+app.get("/", (req, res) => {
+  res.send(`Backend Sistem Informasi Pemagangan Mahasiswa berjalan di port ${PORT}`);
+});
+
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "OK", timestamp: new Date() });
