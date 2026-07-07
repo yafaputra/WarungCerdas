@@ -9,14 +9,51 @@ const footerLinks = {
   Dukungan: ["Help Center", "Dokumentasi", "Status System", "Kebijakan Privasi", "Syarat & Ketentuan"],
 };
 
-export default function Footer() {
-  const [email, setEmail] = useState("");
+interface FooterProps {
+  info?: {
+    brandName: string;
+    description: string;
+    email: string;
+    phone: string;
+    address: string;
+    whatsappUrl: string;
+    websiteUrl: string;
+    facebookUrl: string;
+    youtubeUrl: string;
+  };
+}
+
+export default function Footer({ info }: FooterProps) {
+  const brandName = info?.brandName || "WarungCerdas";
+  const description = info?.description || "Platform SaaS terdepan untuk digitalisasi dan optimalisasi UMKM Indonesia. Dari warung kecil hingga toko multi-cabang.";
+  const email = info?.email || "hello@warungcerdas.id";
+  const phone = info?.phone || "+62 812-3456-7890";
+  const address = info?.address || "Yogyakarta, Indonesia";
+  const whatsappUrl = info?.whatsappUrl || "#";
+  const websiteUrl = info?.websiteUrl || "#";
+  const facebookUrl = info?.facebookUrl || "#";
+  const youtubeUrl = info?.youtubeUrl || "#";
+
   const [subscribed, setSubscribed] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) { setSubscribed(true); setEmail(""); }
+    if (emailInput) { setSubscribed(true); setEmailInput(""); }
   };
+
+  const contacts = [
+    { icon: <Mail size={14} />, text: email },
+    { icon: <Phone size={14} />, text: phone },
+    { icon: <MapPin size={14} />, text: address },
+  ];
+
+  const socials = [
+    { icon: <MessageCircle size={16} />, href: whatsappUrl },
+    { icon: <Globe size={16} />, href: websiteUrl },
+    { icon: <Link size={16} />, href: facebookUrl },
+    { icon: <PlayCircle size={16} />, href: youtubeUrl },
+  ];
 
   return (
     <footer id="contact" style={{ background: "var(--navy-2)", borderTop: "1px solid rgba(0,212,255,0.1)", position: "relative" }}>
@@ -31,20 +68,16 @@ export default function Footer() {
                 <Zap size={20} color="white" fill="white" />
               </div>
               <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.15rem", background: "linear-gradient(135deg, #fff, #00d4ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                WarungCerdas
+                {brandName}
               </span>
             </div>
             <p style={{ color: "var(--white-dim)", fontSize: "0.875rem", lineHeight: 1.7, marginBottom: 20, maxWidth: 280 }}>
-              Platform SaaS terdepan untuk digitalisasi dan optimalisasi UMKM Indonesia. Dari warung kecil hingga toko multi-cabang.
+              {description}
             </p>
 
             {/* Contact */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
-              {[
-                { icon: <Mail size={14} />, text: "hello@warungcerdas.id" },
-                { icon: <Phone size={14} />, text: "+62 812-3456-7890" },
-                { icon: <MapPin size={14} />, text: "Yogyakarta, Indonesia" },
-              ].map((c) => (
+              {contacts.map((c) => (
                 <div key={c.text} style={{ display: "flex", alignItems: "center", gap: 8, color: "var(--white-dim)", fontSize: "0.82rem" }}>
                   <span style={{ color: "var(--cyan)" }}>{c.icon}</span>
                   {c.text}
@@ -54,12 +87,7 @@ export default function Footer() {
 
             {/* Social */}
             <div style={{ display: "flex", gap: 10 }}>
-              {[
-                { icon: <MessageCircle size={16} />, href: "#" },
-                { icon: <Globe size={16} />, href: "#" },
-                { icon: <Link size={16} />, href: "#" },
-                { icon: <PlayCircle size={16} />, href: "#" },
-              ].map((s, i) => (
+              {socials.map((s, i) => (
                 <a
                   key={i}
                   href={s.href}
@@ -104,8 +132,8 @@ export default function Footer() {
             <form onSubmit={handleSubscribe} style={{ display: "flex", gap: 10 }}>
               <input
                 type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+                value={emailInput}
+                onChange={e => setEmailInput(e.target.value)}
                 placeholder="Email kamu..."
                 required
                 style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 10, padding: "11px 16px", color: "var(--white)", fontSize: "0.875rem", outline: "none", minWidth: 220, fontFamily: "var(--font-body)" }}

@@ -12,8 +12,42 @@ const faqs = [
   { q: "Apakah bisa digunakan di HP saja?", a: "Bisa! Aplikasi mobile kami tersedia di Google Play Store dan App Store. Semua fitur utama bisa diakses dari smartphone, termasuk POS, monitoring stok, dan laporan keuangan." },
 ];
 
-export default function FaqCta() {
+interface FaqCtaProps {
+  faqs?: Array<{ id: number; q: string; a: string }>;
+  cta?: {
+    badge: string;
+    title: string;
+    description: string;
+    btnText: string;
+    btnLink: string;
+  };
+}
+
+export default function FaqCta({ faqs: cmsFaqs, cta }: FaqCtaProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const displayFaqs = cmsFaqs && cmsFaqs.length > 0 ? cmsFaqs : faqs;
+
+  const ctaBadge = cta?.badge || "🚀 Mulai Sekarang";
+  const ctaTitle = cta?.title || "Mulai Digitalisasi Bisnis Anda Hari Ini";
+  const ctaDesc = cta?.description || "WarungCerdas membantu UMKM Indonesia tumbuh lebih modern, efisien, dan berbasis data. Bergabunglah dengan 10.000+ UMKM yang sudah bertransformasi.";
+  const ctaBtnText = cta?.btnText || "Start Free Trial — 14 Hari";
+  const ctaBtnLink = cta?.btnLink || "#";
+
+  const renderCtaTitle = (text: string) => {
+    const highlight = "Anda Hari Ini";
+    if (text.includes(highlight)) {
+      const parts = text.split(highlight);
+      return (
+        <>
+          {parts[0]}
+          <span className="gradient-text">{highlight}</span>
+          {parts[1]}
+        </>
+      );
+    }
+    return text;
+  };
 
   return (
     <>
@@ -30,7 +64,7 @@ export default function FaqCta() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {faqs.map((faq, i) => (
+            {displayFaqs.map((faq, i) => (
               <div
                 key={i}
                 className="glass-card"
@@ -114,23 +148,22 @@ export default function FaqCta() {
 
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1, textAlign: "center" }}>
           <div className="badge" style={{ marginBottom: 24, background: "rgba(0,229,160,0.12)", borderColor: "rgba(0,229,160,0.3)", color: "var(--emerald)" }}>
-            🚀 Mulai Sekarang
+            {ctaBadge}
           </div>
 
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: 20 }}>
-            Mulai Digitalisasi Bisnis{" "}
-            <span className="gradient-text">Anda Hari Ini</span>
+            {renderCtaTitle(ctaTitle)}
           </h2>
 
           <p style={{ color: "var(--white-dim)", fontSize: "1.1rem", lineHeight: 1.75, marginBottom: 40, maxWidth: 560, margin: "0 auto 40px" }}>
-            WarungCerdas membantu UMKM Indonesia tumbuh lebih modern, efisien, dan berbasis data. Bergabunglah dengan 10.000+ UMKM yang sudah bertransformasi.
+            {ctaDesc}
           </p>
 
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
-            <a href="#" className="btn-primary" style={{ fontSize: "1.05rem", padding: "16px 32px", boxShadow: "0 12px 40px rgba(26,107,255,0.5)" }}>
-              <Zap size={18} /> Start Free Trial — 14 Hari
+            <a href={ctaBtnLink} className="btn-primary" style={{ fontSize: "1.05rem", padding: "16px 32px", boxShadow: "0 12px 40px rgba(26,107,255,0.5)" }}>
+              <Zap size={18} /> {ctaBtnText}
             </a>
-            <a href="#" className="btn-outline" style={{ fontSize: "1.05rem", padding: "16px 32px", borderColor: "rgba(0,229,160,0.3)", color: "var(--emerald)" }}>
+            <a href="#contact" className="btn-outline" style={{ fontSize: "1.05rem", padding: "16px 32px", borderColor: "rgba(0,229,160,0.3)", color: "var(--emerald)" }}>
               <CalendarDays size={18} /> Schedule Demo
             </a>
           </div>

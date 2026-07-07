@@ -8,7 +8,46 @@ const miniBadges = [
   { icon: <Smartphone size={13} />, text: "Multi Device" },
 ];
 
-export default function Hero() {
+interface HeroProps {
+  data?: {
+    badge: string;
+    title: string;
+    description: string;
+    btn1Text: string;
+    btn1Link: string;
+    btn2Text: string;
+    btn2Link: string;
+    rating: number;
+    umkmCountText: string;
+  };
+}
+
+export default function Hero({ data }: HeroProps) {
+  const badge = data?.badge || "Platform #1 UMKM Indonesia";
+  const title = data?.title || "Transformasi Digital UMKM Indonesia Dimulai dari Sini";
+  const description = data?.description || "Kelola transaksi, stok barang, laporan keuangan, analitik bisnis, dan operasional usaha dalam satu platform cloud terintegrasi yang cepat, modern, dan mudah digunakan.";
+  const btn1Text = data?.btn1Text || "Coba Gratis 14 Hari";
+  const btn1Link = data?.btn1Link || "#";
+  const btn2Text = data?.btn2Text || "Lihat Demo";
+  const btn2Link = data?.btn2Link || "#";
+  const rating = data?.rating || 4.9;
+  const umkmCountText = data?.umkmCountText || "Dipercaya 10.000+ UMKM Indonesia";
+
+  const renderTitle = (text: string) => {
+    const highlight = "UMKM Indonesia";
+    if (text.includes(highlight)) {
+      const parts = text.split(highlight);
+      return (
+        <>
+          {parts[0]}
+          <span className="gradient-text">{highlight}</span>
+          {parts[1]}
+        </>
+      );
+    }
+    return text;
+  };
+
   return (
     <section
       id="home"
@@ -42,7 +81,7 @@ export default function Hero() {
           <div>
             <div className="badge" style={{ marginBottom: 24 }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--emerald)", display: "inline-block" }} />
-              Platform #1 UMKM Indonesia
+              {badge}
             </div>
 
             <h1
@@ -54,9 +93,7 @@ export default function Hero() {
                 marginBottom: 20,
               }}
             >
-              Transformasi Digital{" "}
-              <span className="gradient-text">UMKM Indonesia</span>{" "}
-              Dimulai dari Sini
+              {renderTitle(title)}
             </h1>
 
             <p
@@ -68,16 +105,16 @@ export default function Hero() {
                 maxWidth: 520,
               }}
             >
-              Kelola transaksi, stok barang, laporan keuangan, analitik bisnis, dan operasional usaha dalam satu platform cloud terintegrasi yang cepat, modern, dan mudah digunakan.
+              {description}
             </p>
 
             {/* CTA Buttons */}
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 36 }}>
-              <a href="#" className="btn-primary" style={{ fontSize: "1rem", padding: "15px 28px" }}>
-                Coba Gratis 14 Hari <ArrowRight size={18} />
+              <a href={btn1Link} className="btn-primary" style={{ fontSize: "1rem", padding: "15px 28px" }}>
+                {btn1Text} <ArrowRight size={18} />
               </a>
-              <a href="#" className="btn-outline" style={{ fontSize: "1rem", padding: "15px 28px" }}>
-                <Play size={16} fill="currentColor" /> Lihat Demo
+              <a href={btn2Link} className="btn-outline" style={{ fontSize: "1rem", padding: "15px 28px" }}>
+                <Play size={16} fill="currentColor" /> {btn2Text}
               </a>
             </div>
 
@@ -111,9 +148,9 @@ export default function Hero() {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={14} fill="#fbbf24" color="#fbbf24" />
                   ))}
-                  <span style={{ color: "var(--white)", fontWeight: 700, fontSize: "0.95rem", marginLeft: 4 }}>4.9/5</span>
+                  <span style={{ color: "var(--white)", fontWeight: 700, fontSize: "0.95rem", marginLeft: 4 }}>{rating}/5</span>
                 </div>
-                <p style={{ color: "var(--white-dim)", fontSize: "0.82rem" }}>Dipercaya 10.000+ UMKM Indonesia</p>
+                <p style={{ color: "var(--white-dim)", fontSize: "0.82rem" }}>{umkmCountText}</p>
               </div>
             </div>
 

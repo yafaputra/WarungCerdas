@@ -81,10 +81,64 @@ function StatCard({ stat }: { stat: typeof stats[0] }) {
   );
 }
 
-export default function TestimonialsPricingStats() {
+import * as LucideIcons from "lucide-react";
+
+interface TestimonialsPricingProps {
+  stats?: Array<{ id: number; value: number; suffix: string; label: string; icon: string; decimal: boolean }>;
+  testimonials?: Array<{ id: number; name: string; role: string; city: string; avatar: string; color: string; text: string; rating: number }>;
+  pricingPlans?: Array<{ id: number; billing: string; name: string; price: number; desc: string; color: string; features: string; popular: boolean }>;
+}
+
+function renderDynamicIcon(iconName: string, size: number = 24) {
+  const IconComponent = (LucideIcons as any)[iconName];
+  if (!IconComponent) return <LucideIcons.HelpCircle size={size} />;
+  return <IconComponent size={size} />;
+}
+
+export default function TestimonialsPricingStats({
+  stats: cmsStats,
+  testimonials: cmsTestimonials,
+  pricingPlans
+}: TestimonialsPricingProps) {
   const [active, setActive] = useState(0);
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
-  const plans = pricingData[billing];
+
+  const displayStats = cmsStats && cmsStats.length > 0
+    ? cmsStats.map((s) => ({
+        value: s.value,
+        suffix: s.suffix,
+        label: s.label,
+        icon: renderDynamicIcon(s.icon, 20),
+        decimal: s.decimal
+      }))
+    : stats;
+
+  const displayTestimonials = cmsTestimonials && cmsTestimonials.length > 0
+    ? cmsTestimonials
+    : testimonials;
+
+  const activeTestimonial = displayTestimonials[active] || displayTestimonials[0] || testimonials[0];
+
+  const billingPlans = pricingPlans && pricingPlans.length > 0 ? {
+    monthly: pricingPlans.filter(p => p.billing === "monthly").map(p => ({
+      name: p.name,
+      price: p.price,
+      desc: p.desc,
+      color: p.color,
+      features: p.features.split(",").map(f => f.trim()),
+      popular: p.popular
+    })),
+    annual: pricingPlans.filter(p => p.billing === "annual").map(p => ({
+      name: p.name,
+      price: p.price,
+      desc: p.desc,
+      color: p.color,
+      features: p.features.split(",").map(f => f.trim()),
+      popular: p.popular
+    }))
+  } : pricingData;
+
+  const plans = billingPlans[billing];
 
   return (
     <>
@@ -93,7 +147,7 @@ export default function TestimonialsPricingStats() {
         <div className="mesh-bg" />
         <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 32 }} className="stats-grid">
-            {stats.map((s) => <StatCard key={s.label} stat={s} />)}
+            {displayStats.map((s) => <StatCard key={s.label} stat={s} />)}
           </div>
         </div>
       </section>
@@ -111,33 +165,35 @@ export default function TestimonialsPricingStats() {
           </div>
 
           {/* Main card */}
-          <div className="glass-card" style={{ padding: "40px 44px", maxWidth: 780, margin: "0 auto 32px", boxShadow: "0 20px 60px rgba(0,0,0,0.3)", position: "relative" }}>
-            <div style={{ fontSize: "3rem", color: "var(--blue)", opacity: 0.3, position: "absolute", top: 20, left: 32, lineHeight: 1, fontFamily: "Georgia, serif" }}>"</div>
-            <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
-              {[...Array(testimonials[active].rating)].map((_, i) => <Star key={i} size={16} fill="#fbbf24" color="#fbbf24" />)}
-            </div>
-            <p style={{ fontSize: "1.1rem", lineHeight: 1.75, color: "var(--white)", marginBottom: 28, fontStyle: "italic" }}>{testimonials[active].text}</p>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ width: 48, height: 48, borderRadius: "50%", background: `linear-gradient(135deg, ${testimonials[active].color}, ${testimonials[active].color}80)`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontWeight: 800, color: "white", fontSize: "0.95rem" }}>
-                {testimonials[active].avatar}
+          {activeTestimonial && (
+            <div className="glass-card" style={{ padding: "40px 44px", maxWidth: 780, margin: "0 auto 32px", boxShadow: "0 20px 60px rgba(0,0,0,0.3)", position: "relative" }}>
+              <div style={{ fontSize: "3rem", color: "var(--blue)", opacity: 0.3, position: "absolute", top: 20, left: 32, lineHeight: 1, fontFamily: "Georgia, serif" }}>"</div>
+              <div style={{ display: "flex", gap: 6, marginBottom: 16 }}>
+                {[...Array(activeTestimonial.rating)].map((_, i) => <Star key={i} size={16} fill="#fbbf24" color="#fbbf24" />)}
               </div>
-              <div>
-                <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem" }}>{testimonials[active].name}</p>
-                <p style={{ color: "var(--white-dim)", fontSize: "0.82rem" }}>{testimonials[active].role} • {testimonials[active].city}</p>
+              <p style={{ fontSize: "1.1rem", lineHeight: 1.75, color: "var(--white)", marginBottom: 28, fontStyle: "italic" }}>{activeTestimonial.text}</p>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <div style={{ width: 48, height: 48, borderRadius: "50%", background: `linear-gradient(135deg, ${activeTestimonial.color}, ${activeTestimonial.color}80)`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-display)", fontWeight: 800, color: "white", fontSize: "0.95rem" }}>
+                  {activeTestimonial.avatar}
+                </div>
+                <div>
+                  <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem" }}>{activeTestimonial.name}</p>
+                  <p style={{ color: "var(--white-dim)", fontSize: "0.82rem" }}>{activeTestimonial.role} • {activeTestimonial.city}</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Dots */}
           <div style={{ display: "flex", justifyContent: "center", gap: 10 }}>
-            {testimonials.map((_, i) => (
+            {displayTestimonials.map((_, i) => (
               <button key={i} onClick={() => setActive(i)} style={{ width: i === active ? 24 : 8, height: 8, borderRadius: 4, border: "none", cursor: "pointer", background: i === active ? "var(--blue)" : "rgba(255,255,255,0.2)", transition: "all 0.3s" }} />
             ))}
           </div>
 
           {/* Thumbnail row */}
           <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 24, flexWrap: "wrap" }}>
-            {testimonials.map((t, i) => (
+            {displayTestimonials.map((t, i) => (
               <button key={i} onClick={() => setActive(i)} style={{ display: "flex", alignItems: "center", gap: 8, background: i === active ? "rgba(26,107,255,0.15)" : "rgba(255,255,255,0.04)", border: `1px solid ${i === active ? "rgba(26,107,255,0.4)" : "rgba(255,255,255,0.08)"}`, borderRadius: 12, padding: "8px 14px", cursor: "pointer", transition: "all 0.3s" }}>
                 <div style={{ width: 30, height: 30, borderRadius: "50%", background: `linear-gradient(135deg, ${t.color}, ${t.color}80)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.7rem", fontWeight: 800, color: "white", fontFamily: "var(--font-display)" }}>{t.avatar}</div>
                 <span style={{ color: "var(--white-dim)", fontSize: "0.78rem", fontWeight: 500 }}>{t.name.split(" ")[0]}</span>

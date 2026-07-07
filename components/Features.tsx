@@ -39,8 +39,28 @@ const features = [
   { icon: <Satellite />, title: "Real-time Monitoring", desc: "Monitor seluruh aktivitas bisnis secara live dari mana saja.", color: "#00d4ff" },
 ];
 
-export default function Features() {
-  const [hovered, setHovered] = useState<number | null>(null);
+import * as LucideIcons from "lucide-react";
+
+interface FeaturesProps {
+  data?: Array<{ id: number; icon: string; title: string; desc: string; color: string }>;
+}
+
+function renderDynamicIcon(iconName: string, size: number = 22) {
+  const IconComponent = (LucideIcons as any)[iconName];
+  if (!IconComponent) return <LucideIcons.HelpCircle size={size} />;
+  return <IconComponent size={size} />;
+}
+
+export default function Features({ data }: FeaturesProps) {
+
+  const displayFeatures = data && data.length > 0
+    ? data.map((f) => ({
+        icon: renderDynamicIcon(f.icon, 22),
+        title: f.title,
+        desc: f.desc,
+        color: f.color
+      }))
+    : features;
 
   return (
     <section id="features" className="section-pad" style={{ position: "relative", background: "linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%)" }}>
@@ -53,7 +73,7 @@ export default function Features() {
             <span className="gradient-text">Ada di Sini</span>
           </h2>
           <p style={{ color: "var(--white-dim)", fontSize: "1.05rem", maxWidth: 540, margin: "0 auto" }}>
-            16 fitur powerful dirancang khusus untuk kebutuhan UMKM Indonesia modern.
+            {displayFeatures.length} fitur powerful dirancang khusus untuk kebutuhan UMKM Indonesia modern.
           </p>
         </div>
 
@@ -61,44 +81,36 @@ export default function Features() {
           className="features-grid reveal"
           style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 18 }}
         >
-          {features.map((f, i) => (
+          {displayFeatures.map((f, i) => (
             <div
               key={i}
               className="glass-card feature-card"
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
               style={{
                 padding: "22px",
                 cursor: "default",
-                borderColor: hovered === i ? `${f.color}40` : "var(--glass-border)",
-                background: hovered === i ? `rgba(10,29,61,0.8)` : "var(--glass)",
+                boxShadow: "none"
               }}
             >
               <div
                 style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 12,
-                  background: `${f.color}18`,
-                  border: `1px solid ${f.color}30`,
-                  display: "flex",
+                  width: 44,
+                  height: 44,
+                  borderRadius: 10,
+                  background: "rgba(61, 47, 38, 0.15)",
+                  border: "1px solid rgba(61, 47, 38, 0.35)",
+                  display: "inline-flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "1.4rem",
-                  marginBottom: 14,
-                  transition: "transform 0.3s",
-                  transform: hovered === i ? "scale(1.1)" : "scale(1)",
+                  color: "#3d2f26",
+                  marginBottom: 14
                 }}
               >
                 {f.icon}
               </div>
-              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.95rem", marginBottom: 8, color: hovered === i ? f.color : "var(--white)" }}>
+              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.95rem", marginBottom: 8, color: "var(--white)" }}>
                 {f.title}
               </h3>
               <p style={{ color: "var(--white-dim)", fontSize: "0.82rem", lineHeight: 1.6 }}>{f.desc}</p>
-              {hovered === i && (
-                <div style={{ marginTop: 12, fontSize: "0.78rem", color: f.color, fontWeight: 600 }}>Pelajari lebih →</div>
-              )}
             </div>
           ))}
         </div>

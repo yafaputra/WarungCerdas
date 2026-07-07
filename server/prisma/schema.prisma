@@ -1,0 +1,166 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Hero section data
+model Hero {
+  id              Int      @id @default(1)
+  badge           String
+  title           String
+  description     String
+  btn1Text        String
+  btn1Link        String
+  btn2Text        String
+  btn2Link        String
+  rating          Float
+  umkmCountText   String
+}
+
+// Partner / Trusted By section
+model Partner {
+  id              Int      @id @default(autoincrement())
+  name            String
+  logo            String?
+}
+
+// Masalah Nyata UMKM section
+model Problem {
+  id              Int      @id @default(autoincrement())
+  icon            String   // Name of the lucide icon
+  title           String
+  desc            String
+}
+
+// Solusi Lengkap section
+model SolutionSection {
+  id              Int      @id @default(1)
+  badge           String
+  title           String
+  description     String
+  btnText         String
+  btnLink         String
+}
+
+// Solusi Lengkap points
+model SolutionPoint {
+  id              Int      @id @default(autoincrement())
+  icon            String   // Name of the lucide icon
+  text            String
+}
+
+// Fitur Lengkap section
+model Feature {
+  id              Int      @id @default(autoincrement())
+  icon            String   // Name of the lucide icon
+  title           String
+  desc            String
+  color           String
+}
+
+// Preview Dashboard section
+model DashboardPreview {
+  id              Int      @id @default(1)
+  badge           String
+  title           String
+  kpi1Label       String
+  kpi1Value       String
+  kpi1Change      String
+  kpi2Label       String
+  kpi2Value       String
+  kpi2Change      String
+  kpi3Label       String
+  kpi3Value       String
+  kpi3Change      String
+  kpi4Label       String
+  kpi4Value       String
+  kpi4Change      String
+}
+
+// Keuntungan Nyata section
+model Advantage {
+  id              Int      @id @default(autoincrement())
+  icon            String   // Name of the lucide icon
+  title           String
+  desc            String
+  color           String
+}
+
+// Cara Kerja section
+model Step {
+  id              Int      @id @default(autoincrement())
+  num             String
+  icon            String   // Name of the lucide icon
+  title           String
+  desc            String
+  time            String
+}
+
+// Statistik section
+model Stat {
+  id              Int      @id @default(autoincrement())
+  value           Float
+  suffix          String
+  label           String
+  icon            String   // Name of the lucide icon
+  decimal         Boolean
+}
+
+// Testimonial section
+model Testimonial {
+  id              Int      @id @default(autoincrement())
+  name            String
+  role            String
+  city            String
+  avatar          String
+  color           String
+  text            String
+  rating          Int
+}
+
+// Harga section
+model PricingPlan {
+  id              Int      @id @default(autoincrement())
+  billing         String   // "monthly" or "annual"
+  name            String
+  price           Int
+  desc            String
+  color           String
+  features        String   // Comma-separated strings
+  popular         Boolean
+}
+
+// FAQ section
+model Faq {
+  id              Int      @id @default(autoincrement())
+  q               String
+  a               String
+}
+
+// CTA section
+model CtaSection {
+  id              Int      @id @default(1)
+  badge           String
+  title           String
+  description     String
+  btnText         String
+  btnLink         String
+}
+
+// Footer section
+model FooterInfo {
+  id              Int      @id @default(1)
+  brandName       String
+  description     String
+  email           String
+  phone           String
+  address         String
+  whatsappUrl     String
+  websiteUrl      String
+  facebookUrl     String
+  youtubeUrl      String
+}

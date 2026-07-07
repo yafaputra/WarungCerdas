@@ -1,8 +1,8 @@
 "use client";
-import { TrendingUp, Users, ShoppingBag, CreditCard, BarChart2, Zap, Satellite, PartyPopper, Settings, Rocket, ShieldCheck, BookOpen } from "lucide-react";
-import { Lock } from "lucide-react";
+import { TrendingUp, Users, ShoppingBag, CreditCard, BarChart2, Zap, Satellite, PartyPopper, Settings, Rocket, ShieldCheck, BookOpen, Lock } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 
-const benefits = [
+const staticBenefits = [
   {
     icon: <Zap />,
     title: "Hemat Waktu Operasional",
@@ -41,13 +41,75 @@ const benefits = [
   },
 ];
 
-const steps = [
+const staticSteps = [
   { num: "01", icon: <Rocket />, title: "Daftar Akun", desc: "Buat akun gratis dalam 2 menit. Tidak perlu kartu kredit atau instalasi software.", time: "2 menit" },
   { num: "02", icon: <Settings />, title: "Input Data Bisnis", desc: "Masukkan data produk, harga, dan informasi toko. Atau impor dari Excel/spreadsheet.", time: "15 menit" },
   { num: "03", icon: <PartyPopper />, title: "Mulai Kelola Bisnis", desc: "Langsung gunakan semua fitur — POS, inventory, laporan, dan analitik AI.", time: "Selamanya" },
 ];
 
-export default function DashboardBenefitsHowItWorks() {
+interface DashboardBenefitsProps {
+  preview?: {
+    badge: string;
+    title: string;
+    kpi1Label: string; kpi1Value: string; kpi1Change: string;
+    kpi2Label: string; kpi2Value: string; kpi2Change: string;
+    kpi3Label: string; kpi3Value: string; kpi3Change: string;
+    kpi4Label: string; kpi4Value: string; kpi4Change: string;
+  };
+  advantages?: Array<{ id: number; icon: string; title: string; desc: string; color: string }>;
+  steps?: Array<{ id: number; num: string; icon: string; title: string; desc: string; time: string }>;
+}
+
+function renderDynamicIcon(iconName: string, size: number = 20) {
+  const IconComponent = (LucideIcons as any)[iconName];
+  if (!IconComponent) return <LucideIcons.HelpCircle size={size} />;
+  return <IconComponent size={size} />;
+}
+
+export default function DashboardBenefitsHowItWorks({ preview, advantages, steps: cmsSteps }: DashboardBenefitsProps) {
+  const previewBadge = preview?.badge || "TrendingUp";
+  const previewTitle = preview?.title || "Dashboard Modern yang Intuitif & Powerful";
+
+  const displayKpis = [
+    { label: preview?.kpi1Label || "Total Revenue", value: preview?.kpi1Value || "Rp 12.4Jt", change: preview?.kpi1Change || "+18%", icon: <TrendingUp size={16} />, color: "var(--emerald)" },
+    { label: preview?.kpi2Label || "Total Pelanggan", value: preview?.kpi2Value || "1,847", change: preview?.kpi2Change || "+24%", icon: <Users size={16} />, color: "var(--cyan)" },
+    { label: preview?.kpi3Label || "Produk Terjual", value: preview?.kpi3Value || "3,291", change: preview?.kpi3Change || "+11%", icon: <ShoppingBag size={16} />, color: "#a78bfa" },
+    { label: preview?.kpi4Label || "Total Transaksi", value: preview?.kpi4Value || "892", change: preview?.kpi4Change || "+9%", icon: <CreditCard size={16} />, color: "var(--blue-light)" },
+  ];
+
+  const displayBenefits = advantages && advantages.length > 0
+    ? advantages.map((adv) => ({
+        icon: renderDynamicIcon(adv.icon, 20),
+        title: adv.title,
+        desc: adv.desc,
+        color: adv.color
+      }))
+    : staticBenefits;
+
+  const displaySteps = cmsSteps && cmsSteps.length > 0
+    ? cmsSteps.map((s) => ({
+        num: s.num,
+        icon: renderDynamicIcon(s.icon, 24),
+        title: s.title,
+        desc: s.desc,
+        time: s.time
+      }))
+    : staticSteps;
+
+  const renderPreviewTitle = (text: string) => {
+    const highlight = "Intuitif & Powerful";
+    if (text.includes(highlight)) {
+      const parts = text.split(highlight);
+      return (
+        <>
+          {parts[0]}
+          <span className="gradient-text">{highlight}</span>
+          {parts[1]}
+        </>
+      );
+    }
+    return text;
+  };
   return (
     <>
       {/* DASHBOARD PREVIEW */}
@@ -55,10 +117,12 @@ export default function DashboardBenefitsHowItWorks() {
         <div className="mesh-bg" />
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <div className="badge" style={{ marginBottom: 16 }}><TrendingUp /> Preview Aplikasi</div>
+            <div className="badge" style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 6 }}>
+              {renderDynamicIcon(previewBadge, 14)}
+              Preview Aplikasi
+            </div>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: 16 }}>
-              Dashboard Modern yang{" "}
-              <span className="gradient-text">Intuitif & Powerful</span>
+              {renderPreviewTitle(previewTitle)}
             </h2>
           </div>
 
@@ -79,13 +143,8 @@ export default function DashboardBenefitsHowItWorks() {
             </div>
 
             {/* KPI row */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 24 }}>
-              {[
-                { label: "Total Revenue", value: "Rp 12.4Jt", change: "+18%", icon: <TrendingUp size={16} />, color: "var(--emerald)" },
-                { label: "Total Pelanggan", value: "1,847", change: "+24%", icon: <Users size={16} />, color: "var(--cyan)" },
-                { label: "Produk Terjual", value: "3,291", change: "+11%", icon: <ShoppingBag size={16} />, color: "#a78bfa" },
-                { label: "Total Transaksi", value: "892", change: "+9%", icon: <CreditCard size={16} />, color: "var(--blue-light)" },
-              ].map((k) => (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 24 }} className="stats-grid">
+              {displayKpis.map((k) => (
                 <div key={k.label} style={{ background: "rgba(255,255,255,0.04)", borderRadius: 14, padding: "16px", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
                     <span style={{ color: "var(--white-dim)", fontSize: "0.75rem" }}>{k.label}</span>
@@ -162,13 +221,24 @@ export default function DashboardBenefitsHowItWorks() {
             </h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
-            {benefits.map((b, i) => (
+            {displayBenefits.map((b, i) => (
               <div
                 key={i}
                 className="glass-card feature-card"
-                style={{ padding: "28px", display: "flex", gap: 18 }}
+                style={{ padding: "28px", display: "flex", gap: 18, boxShadow: "none" }}
               >
-                <div style={{ width: 52, height: 52, flexShrink: 0, borderRadius: 14, background: `${b.color}18`, border: `1px solid ${b.color}30`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem" }}>
+                <div style={{
+                  width: 44,
+                  height: 44,
+                  flexShrink: 0,
+                  borderRadius: 10,
+                  background: "rgba(61, 47, 38, 0.15)",
+                  border: "1px solid rgba(61, 47, 38, 0.35)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#3d2f26"
+                }}>
                   {b.icon}
                 </div>
                 <div>
@@ -195,7 +265,7 @@ export default function DashboardBenefitsHowItWorks() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32, position: "relative" }} className="features-grid">
             {/* Connector line */}
             <div style={{ position: "absolute", top: 60, left: "17%", right: "17%", height: 2, background: "linear-gradient(90deg, var(--blue), var(--cyan), var(--emerald))", opacity: 0.3, display: "none" }} className="hide-mobile" />
-            {steps.map((s, i) => (
+            {displaySteps.map((s, i) => (
               <div key={i} style={{ textAlign: "center", position: "relative" }}>
                 <div style={{ position: "relative", display: "inline-block", marginBottom: 24 }}>
                   <div style={{ width: 80, height: 80, borderRadius: "50%", background: `linear-gradient(135deg, var(--blue), var(--cyan))`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem", margin: "0 auto", boxShadow: "0 10px 30px rgba(26,107,255,0.35)" }}>

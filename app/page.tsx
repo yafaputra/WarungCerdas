@@ -8,20 +8,51 @@ import FaqCta from "@/components/FaqCta";
 import Footer from "@/components/Footer";
 import ClientEffects from "@/components/ClientEffects";
 
-export default function Home() {
+async function getCMSData() {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const res = await fetch(`${API_URL}/api/landing-page`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const json = await res.json();
+      return json.data;
+    }
+  } catch (error) {
+    console.warn("[CMS Warning] API is offline. Using static fallbacks.");
+  }
+  return null;
+}
+
+export default async function Home() {
+  const cmsData = await getCMSData();
+
   return (
     <>
       <ClientEffects />
       <Navbar />
       <main>
-        <Hero />
-        <SocialProofProblem />
-        <Features />
-        <DashboardBenefits />
-        <TestimonialsPricing />
-        <FaqCta />
+        <Hero data={cmsData?.hero} />
+        <SocialProofProblem
+          partners={cmsData?.partners}
+          problems={cmsData?.problems}
+          solutionSection={cmsData?.solutionSection}
+          solutionPoints={cmsData?.solutionPoints}
+        />
+        <Features data={cmsData?.features} />
+        <DashboardBenefits
+          preview={cmsData?.dashboardPreview}
+          advantages={cmsData?.advantages}
+          steps={cmsData?.steps}
+        />
+        <TestimonialsPricing
+          stats={cmsData?.stats}
+          testimonials={cmsData?.testimonials}
+          pricingPlans={cmsData?.pricingPlans}
+        />
+        <FaqCta faqs={cmsData?.faqs} cta={cmsData?.ctaSection} />
       </main>
-      <Footer />
+      <Footer info={cmsData?.footerInfo} />
     </>
   );
 }

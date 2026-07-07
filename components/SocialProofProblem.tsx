@@ -18,7 +18,79 @@ const problems = [
   { icon: <Satellite />, title: "Tidak Bisa Monitor Jarak Jauh", desc: "Pemilik tidak bisa memantau toko saat sedang tidak di tempat." },
 ];
 
-export default function SocialProofAndProblem() {
+import * as LucideIcons from "lucide-react";
+
+interface SocialProofAndProblemProps {
+  partners?: Array<{ id: number; name: string }>;
+  problems?: Array<{ id: number; icon: string; title: string; desc: string }>;
+  solutionSection?: {
+    badge: string;
+    title: string;
+    description: string;
+    btnText: string;
+    btnLink: string;
+  };
+  solutionPoints?: Array<{ id: number; icon: string; text: string }>;
+}
+
+function renderDynamicIcon(iconName: string, size: number = 24) {
+  const IconComponent = (LucideIcons as any)[iconName];
+  if (!IconComponent) return <LucideIcons.HelpCircle size={size} />;
+  return <IconComponent size={size} />;
+}
+
+export default function SocialProofAndProblem({
+  partners,
+  problems: cmsProblems,
+  solutionSection,
+  solutionPoints
+}: SocialProofAndProblemProps) {
+  const displayBrands = partners && partners.length > 0
+    ? partners.map((p) => p.name)
+    : brands;
+
+  const displayProblems = cmsProblems && cmsProblems.length > 0
+    ? cmsProblems.map((p) => ({
+        icon: renderDynamicIcon(p.icon, 24),
+        title: p.title,
+        desc: p.desc
+      }))
+    : problems;
+
+  const solBadge = solutionSection?.badge || "✦ Solusi Lengkap";
+  const solTitle = solutionSection?.title || "Satu Platform untuk Seluruh Operasional Bisnis Anda";
+  const solDesc = solutionSection?.description || "WarungCerdas hadir sebagai platform SaaS berbasis cloud yang mengintegrasikan seluruh kebutuhan operasional UMKM — dari kasir, stok, laporan keuangan, hingga analitik bisnis berbasis AI.";
+  const solBtnText = solutionSection?.btnText || "Pelajari Lebih Lanjut →";
+  const solBtnLink = solutionSection?.btnLink || "#";
+
+  const displayPoints = solutionPoints && solutionPoints.length > 0
+    ? solutionPoints.map((pt) => ({
+        icon: renderDynamicIcon(pt.icon, 18),
+        text: pt.text
+      }))
+    : [
+        { icon: <Cloud />, text: "SaaS berbasis cloud, akses dari mana saja" },
+        { icon: <Link />, text: "Sistem terintegrasi satu dashboard" },
+        { icon: <Zap />, text: "Data real-time tanpa delay" },
+        { icon: <Bot />, text: "Otomatisasi operasional dengan AI" },
+        { icon: <BarChart2 />, text: "Business intelligence untuk UMKM" },
+      ];
+
+  const renderSolTitle = (text: string) => {
+    const highlight = "Seluruh Operasional";
+    if (text.includes(highlight)) {
+      const parts = text.split(highlight);
+      return (
+        <>
+          {parts[0]}
+          <span className="gradient-text">{highlight}</span>
+          {parts[1]}
+        </>
+      );
+    }
+    return text;
+  };
+
   return (
     <>
       {/* SOCIAL PROOF */}
@@ -29,7 +101,7 @@ export default function SocialProofAndProblem() {
           </p>
         </div>
         <div style={{ display: "flex", gap: 40, animation: "marquee 20s linear infinite", width: "max-content" }}>
-          {[...brands, ...brands].map((b, i) => (
+          {[...displayBrands, ...displayBrands].map((b, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, whiteSpace: "nowrap", opacity: 0.6, transition: "opacity 0.3s" }}
               onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
               onMouseLeave={e => (e.currentTarget.style.opacity = "0.6")}
@@ -59,13 +131,26 @@ export default function SocialProofAndProblem() {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
-            {problems.map((p, i) => (
+            {displayProblems.map((p, i) => (
               <div
                 key={i}
                 className="glass-card feature-card"
-                style={{ padding: "24px", cursor: "default" }}
+                style={{ padding: "24px", cursor: "default", boxShadow: "none" }}
               >
-                <div style={{ fontSize: "2rem", marginBottom: 12 }}>{p.icon}</div>
+                <div style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 10,
+                  background: "rgba(61, 47, 38, 0.15)",
+                  border: "1px solid rgba(61, 47, 38, 0.35)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#3d2f26",
+                  marginBottom: 16
+                }}>
+                  {p.icon}
+                </div>
                 <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", marginBottom: 8, color: "var(--white)" }}>{p.title}</h3>
                 <p style={{ color: "var(--white-dim)", fontSize: "0.875rem", lineHeight: 1.6 }}>{p.desc}</p>
               </div>
@@ -81,30 +166,22 @@ export default function SocialProofAndProblem() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }} className="hero-grid">
             {/* Left */}
             <div>
-              <div className="badge" style={{ marginBottom: 16 }}>✦ Solusi Lengkap</div>
+              <div className="badge" style={{ marginBottom: 16 }}>{solBadge}</div>
               <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 800, lineHeight: 1.2, marginBottom: 20 }}>
-                Satu Platform untuk{" "}
-                <span className="gradient-text">Seluruh Operasional</span>{" "}
-                Bisnis Anda
+                {renderSolTitle(solTitle)}
               </h2>
               <p style={{ color: "var(--white-dim)", fontSize: "1.05rem", lineHeight: 1.75, marginBottom: 28 }}>
-                WarungCerdas hadir sebagai platform SaaS berbasis cloud yang mengintegrasikan seluruh kebutuhan operasional UMKM — dari kasir, stok, laporan keuangan, hingga analitik bisnis berbasis AI.
+                {solDesc}
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 32 }}>
-                {[
-                  { icon: <Cloud />, text: "SaaS berbasis cloud, akses dari mana saja" },
-                  { icon: <Link />, text: "Sistem terintegrasi satu dashboard" },
-                  { icon: <Zap />, text: "Data real-time tanpa delay" },
-                  { icon: <Bot />, text: "Otomatisasi operasional dengan AI" },
-                  { icon: <BarChart2 />, text: "Business intelligence untuk UMKM" },
-                ].map((item) => (
-                  <div key={item.text} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <span style={{ fontSize: "1.1rem" }}>{item.icon}</span>
+                {displayPoints.map((item, idx) => (
+                  <div key={idx} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <span style={{ fontSize: "1.1rem", display: "flex", color: "var(--cyan)" }}>{item.icon}</span>
                     <span style={{ color: "var(--white-dim)", fontSize: "0.95rem" }}>{item.text}</span>
                   </div>
                 ))}
               </div>
-              <a href="#" className="btn-primary">Pelajari Lebih Lanjut →</a>
+              <a href={solBtnLink} className="btn-primary">{solBtnText}</a>
             </div>
 
             {/* Right – Visual */}
