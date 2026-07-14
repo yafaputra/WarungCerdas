@@ -331,8 +331,11 @@ export default function AdminPage() {
                     umkmCountText: form.umkmCountText.value,
                   });
                 }}>
-                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                    <Monitor size={20} color="#1a6bff" /> Kelola Section Hero
+                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Monitor size={18} color="#1a6bff" />
+                    </div>
+                    Kelola Section Hero
                   </h3>
                   
                   <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 18 }}>
@@ -395,8 +398,11 @@ export default function AdminPage() {
               {activeTab === "partners" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <Briefcase size={20} color="#1a6bff" /> Daftar Partner / Brand
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Briefcase size={18} color="#1a6bff" />
+                      </div>
+                      Daftar Partner / Brand
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -473,8 +479,11 @@ export default function AdminPage() {
               {activeTab === "problems" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <AlertTriangle size={20} color="#1a6bff" /> Daftar Masalah UMKM
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <AlertTriangle size={18} color="#1a6bff" />
+                      </div>
+                      Daftar Masalah UMKM
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -586,8 +595,11 @@ export default function AdminPage() {
                       btnLink: form.btnLink.value,
                     });
                   }} style={{ marginBottom: 40 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                      <CheckCircle2 size={20} color="#1a6bff" /> Kelola Judul & Deskripsi Solusi
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <CheckCircle2 size={18} color="#1a6bff" />
+                      </div>
+                      Kelola Judul & Deskripsi Solusi
                     </h3>
                     
                     <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 18 }}>
@@ -709,8 +721,11 @@ export default function AdminPage() {
               {activeTab === "features" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <Layers size={20} color="#1a6bff" /> Daftar Fitur Lengkap
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Layers size={18} color="#1a6bff" />
+                      </div>
+                      Daftar Fitur Lengkap
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -822,8 +837,11 @@ export default function AdminPage() {
                     kpi4Label: form.kpi4Label.value, kpi4Value: form.kpi4Value.value, kpi4Change: form.kpi4Change.value,
                   });
                 }}>
-                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                    <Image size={20} color="#1a6bff" /> Kelola Section Preview Dashboard
+                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Image size={18} color="#1a6bff" />
+                    </div>
+                    Kelola Section Preview Dashboard
                   </h3>
                   
                   <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 18 }}>
@@ -893,8 +911,11 @@ export default function AdminPage() {
               {activeTab === "advantages" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <Zap size={20} color="#1a6bff" /> Daftar Keuntungan Nyata
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Zap size={18} color="#1a6bff" />
+                      </div>
+                      Daftar Keuntungan Nyata
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -998,8 +1019,11 @@ export default function AdminPage() {
               {activeTab === "steps" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <HelpCircle size={20} color="#1a6bff" /> Langkah Cara Kerja
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <HelpCircle size={18} color="#1a6bff" />
+                      </div>
+                      Langkah Cara Kerja
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -1132,8 +1156,11 @@ export default function AdminPage() {
               {activeTab === "stats" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <BarChart3 size={20} color="#1a6bff" /> Daftar Statistik Bisnis
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <BarChart3 size={18} color="#1a6bff" />
+                      </div>
+                      Daftar Statistik Bisnis
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -1259,8 +1286,11 @@ export default function AdminPage() {
               {activeTab === "testimonials" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <Users size={20} color="#1a6bff" /> Daftar Testimoni Pengguna
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <Users size={18} color="#1a6bff" />
+                      </div>
+                      Daftar Testimoni Pengguna
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -1421,8 +1451,11 @@ export default function AdminPage() {
               {activeTab === "pricing" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <CreditCard size={20} color="#1a6bff" /> Daftar Paket Harga
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <CreditCard size={18} color="#1a6bff" />
+                      </div>
+                      Daftar Paket Harga
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -1593,8 +1626,11 @@ export default function AdminPage() {
               {activeTab === "faq" && (
                 <div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12 }}>
-                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>
-                      <FileText size={20} color="#1a6bff" /> Daftar FAQ
+                    <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <FileText size={18} color="#1a6bff" />
+                      </div>
+                      Daftar FAQ
                     </h3>
                     {!isAddMode && !editingItem && (
                       <button onClick={startAdd} className="btn-primary" style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", cursor: "pointer", border: "none" }}>
@@ -1691,8 +1727,11 @@ export default function AdminPage() {
                     btnLink: form.btnLink.value,
                   });
                 }}>
-                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                    <Megaphone size={20} color="#1a6bff" /> Kelola Section Call To Action (CTA)
+                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Megaphone size={18} color="#1a6bff" />
+                    </div>
+                    Kelola Section Call To Action (CTA)
                   </h3>
                   
                   <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 18 }}>
@@ -1746,8 +1785,11 @@ export default function AdminPage() {
                     youtubeUrl: form.youtubeUrl.value,
                   });
                 }}>
-                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                    <Info size={20} color="#1a6bff" /> Kelola Footer Info & Kontak
+                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, marginBottom: 24, borderBottom: "1px solid #cbd5e1", paddingBottom: 12, display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: "rgba(26, 107, 255, 0.08)", border: "1px solid rgba(26, 107, 255, 0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Info size={18} color="#1a6bff" />
+                    </div>
+                    Kelola Footer Info & Kontak
                   </h3>
                   
                   <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 18 }}>
