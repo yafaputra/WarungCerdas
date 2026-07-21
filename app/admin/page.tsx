@@ -8,7 +8,8 @@ import {
   Link as LinkIcon, Bot, Monitor, Wallet, BarChart3, Store, Bell, Smartphone,
   MessageCircle, Truck, WandSparkles, ShieldCheck, Lock, TrendingUp, Rocket,
   Settings, PartyPopper, MapPin, Star, HelpCircle, Check, Play, Globe,
-  LayoutGrid, Briefcase, AlertTriangle, CheckCircle2, Layers, Image, Megaphone, Info
+  LayoutGrid, Briefcase, AlertTriangle, CheckCircle2, Layers, Image, Megaphone, Info,
+  User, LogOut
 } from "lucide-react";
 import LandingPageApi, { LandingPageData } from "./api";
 
@@ -57,6 +58,13 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<string>("hero");
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
+  // Auth states
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [authLoading, setAuthLoading] = useState<boolean>(true);
+  const [usernameInput, setUsernameInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [loginError, setLoginError] = useState<string | null>(null);
+
   // Form states
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [isAddMode, setIsAddMode] = useState<boolean>(false);
@@ -84,8 +92,39 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
+    const authStatus = localStorage.getItem("admin_authenticated");
+    if (authStatus === "true") {
+      setIsAuthenticated(true);
+    }
+    setAuthLoading(false);
     loadData();
   }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError(null);
+    
+    // Hardcoded credentials
+    const correctUsername = "admin";
+    const correctPassword = "adminwarungcerdas";
+    
+    if (usernameInput === correctUsername && passwordInput === correctPassword) {
+      localStorage.setItem("admin_authenticated", "true");
+      setIsAuthenticated(true);
+      showToast("Login berhasil! Selamat datang di dashboard.", "success");
+    } else {
+      setLoginError("Username atau Password salah!");
+      showToast("Login gagal. Periksa kembali input Anda.", "error");
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("admin_authenticated");
+    setIsAuthenticated(false);
+    setUsernameInput("");
+    setPasswordInput("");
+    showToast("Anda telah keluar dari dashboard.", "success");
+  };
 
   const handleSingletonSave = async (section: string, apiMethod: Function, payload: any) => {
     try {
@@ -191,6 +230,165 @@ export default function AdminPage() {
 
 
 
+  if (authLoading) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 16 }}>
+        <RefreshCw className="animate-spin" size={32} color="#1a6bff" />
+        <p style={{ color: "#475569", fontWeight: 600 }}>Memuat Halaman...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{
+        minHeight: "100vh",
+        background: "radial-gradient(circle at 10% 20%, rgba(26, 107, 255, 0.05) 0%, rgba(255, 255, 255, 0) 90%), #f8fafc",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 24,
+        fontFamily: "sans-serif"
+      }}>
+        {toast && (
+          <div style={{
+            position: "fixed",
+            top: 24,
+            right: 24,
+            zIndex: 9999,
+            padding: "16px 24px",
+            borderRadius: 12,
+            background: toast.type === "success" ? "rgba(0,229,160,0.95)" : "rgba(239,68,68,0.95)",
+            backdropFilter: "blur(10px)",
+            border: `1px solid ${toast.type === "success" ? "rgba(0,229,160,0.2)" : "rgba(239,68,68,0.2)"}`,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            color: "white",
+            fontWeight: 600
+          }}>
+            {toast.type === "success" ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+            <span>{toast.message}</span>
+          </div>
+        )}
+
+        <div style={{
+          width: "100%",
+          maxWidth: 420,
+          background: "#ffffff",
+          border: "1px solid #cbd5e1",
+          borderRadius: 20,
+          boxShadow: "0 20px 40px rgba(15, 23, 42, 0.05)",
+          padding: "40px 32px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 28
+        }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "linear-gradient(135deg, #1a6bff, #00d4ff)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 20px rgba(26,107,255,0.25)" }}>
+              <Zap size={24} color="white" fill="white" />
+            </div>
+            <div>
+              <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#0f172a", margin: 0, fontFamily: "var(--font-display)" }}>
+                CMS WarungCerdas
+              </h2>
+              <p style={{ fontSize: "0.875rem", color: "#64748b", marginTop: 4 }}>Masukkan kredensial admin untuk masuk</p>
+            </div>
+          </div>
+
+          <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {loginError && (
+              <div style={{ display: "flex", gap: 8, alignItems: "center", background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)", padding: 12, borderRadius: 8, color: "#ef4444", fontSize: "0.85rem" }}>
+                <AlertCircle size={16} />
+                <span>{loginError}</span>
+              </div>
+            )}
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#475569" }}>Username</label>
+              <div style={{ position: "relative" }}>
+                <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#94a3b8", display: "flex", alignItems: "center" }}>
+                  <User size={16} />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Username Anda"
+                  value={usernameInput}
+                  onChange={(e) => setUsernameInput(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "12px 12px 12px 38px",
+                    borderRadius: 10,
+                    border: "1px solid #cbd5e1",
+                    color: "#0f172a",
+                    background: "#f8fafc",
+                    fontSize: "0.9rem",
+                    outline: "none",
+                    transition: "all 0.2s"
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <label style={{ fontSize: "0.85rem", fontWeight: 600, color: "#475569" }}>Password</label>
+              <div style={{ position: "relative" }}>
+                <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#94a3b8", display: "flex", alignItems: "center" }}>
+                  <Lock size={16} />
+                </span>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "12px 12px 12px 38px",
+                    borderRadius: 10,
+                    border: "1px solid #cbd5e1",
+                    color: "#0f172a",
+                    background: "#f8fafc",
+                    fontSize: "0.9rem",
+                    outline: "none",
+                    transition: "all 0.2s"
+                  }}
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="btn-primary" style={{
+              padding: "12px",
+              borderRadius: 10,
+              border: "none",
+              background: "#1a6bff",
+              color: "white",
+              fontWeight: 600,
+              fontSize: "0.95rem",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              boxShadow: "0 4px 12px rgba(26,107,255,0.15)",
+              transition: "all 0.2s"
+            }}>
+              Masuk ke Dashboard
+            </button>
+          </form>
+
+          <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: 16, textAlign: "center" }}>
+            <Link href="/" style={{ fontSize: "0.85rem", color: "#1a6bff", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 500 }}>
+              <ArrowLeft size={14} /> Kembali ke Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (loading && !data) {
     return (
       <div style={{ minHeight: "100vh", background: "var(--navy)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", flexDirection: "column", gap: 16 }}>
@@ -244,9 +442,14 @@ export default function AdminPage() {
               <p style={{ fontSize: "0.75rem", color: "var(--white-dim)" }}>Kelola Konten Landing Page</p>
             </div>
           </div>
-          <Link href="/" className="btn-outline" style={{ fontSize: "0.85rem", padding: "8px 16px", display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-            <ArrowLeft size={14} /> Lihat Landing Page
-          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <Link href="/" className="btn-outline" style={{ fontSize: "0.85rem", padding: "8px 16px", display: "flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+              <ArrowLeft size={14} /> Lihat Landing Page
+            </Link>
+            <button onClick={handleLogout} className="btn-outline" style={{ fontSize: "0.85rem", padding: "8px 16px", display: "flex", alignItems: "center", gap: 8, cursor: "pointer", borderColor: "rgba(239, 68, 68, 0.4)", color: "#ef4444" }}>
+              <LogOut size={14} /> Keluar
+            </button>
+          </div>
         </div>
       </header>
 
