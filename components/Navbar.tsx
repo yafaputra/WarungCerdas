@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Menu, X, Zap } from "lucide-react";
-import Link from "next/link";
+
 
 const links = [
   { href: "#features", label: "Fitur" },
@@ -91,9 +91,6 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div style={{ display: "flex", gap: 12, alignItems: "center" }} className="hide-mobile">
-          <Link href="/admin" style={{ fontSize: "0.875rem", marginRight: 8, color: "inherit", textDecoration: "none", fontWeight: 600 }}>
-            Admin
-          </Link>
           <a href="#" className="btn-outline" style={{ padding: "10px 20px", fontSize: "0.875rem" }}>
             Login
           </a>
@@ -145,9 +142,6 @@ export default function Navbar() {
             </a>
           ))}
           <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap" }}>
-            <Link href="/admin" className="btn-outline" style={{ flex: "1 1 100%", justifyContent: "center", padding: "12px", display: "flex", textDecoration: "none" }}>
-              Admin
-            </Link>
             <a href="#" className="btn-outline" style={{ flex: 1, justifyContent: "center", padding: "12px" }}>
               Login
             </a>
